@@ -1,0 +1,346 @@
+/* 🎯 Comprehensive Responsive Design & Touch System */
+
+/* ===== DEVICE BREAKPOINTS ===== */
+/* Mobile: 320px - 640px */
+/* Tablet: 641px - 1024px */ 
+/* Laptop: 1025px - 1440px */
+/* Desktop: 1441px+ */
+
+/* ===== MOBILE-FIRST BASE STYLES ===== */
+@media (max-width: 640px) {
+  /* 📱 Mobile Optimizations */
+  
+  /* Touch-friendly tap targets - minimum 44px */
+  .touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    padding: 12px !important;
+  }
+  
+  /* Larger touch areas for buttons */
+  button, .btn {
+    min-height: 48px !important;
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+  }
+  
+  /* Improved form inputs for touch */
+  input, textarea, select {
+    min-height: 48px !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 12px !important;
+    border-radius: 12px !important;
+  }
+  
+  /* Mobile glass card adjustments */
+  .login-card {
+    width: 90% !important;
+    max-width: 320px !important;
+    padding: 20px !important;
+    margin: 10px !important;
+  }
+  
+  /* Mobile floating animation adjustments */
+  .animate-floating {
+    animation: float-mobile 8s ease-in-out infinite !important;
+  }
+  
+  @keyframes float-mobile {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    25% { transform: translateY(-5px) scale(1.01); }
+    50% { transform: translateY(5px) scale(0.99); }
+    75% { transform: translateY(-3px) scale(1.005); }
+  }
+  
+  /* Mobile subtitle adjustments */
+  .subtitle-container {
+    left: 10px !important;
+    right: 10px !important;
+    max-width: calc(100vw - 20px) !important;
+    font-size: 14px !important;
+  }
+  
+  /* Mobile voice controls */
+  .voice-controls {
+    right: 10px !important;
+    gap: 8px !important;
+  }
+  
+  .voice-controls button {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 18px !important;
+  }
+  
+  /* Mobile assistant card */
+  .assistant-card {
+    width: 240px !important;
+    height: 320px !important;
+    margin: 0 10px !important;
+  }
+  
+  /* Mobile text sizes */
+  .mobile-title {
+    font-size: 24px !important;
+    line-height: 1.2 !important;
+  }
+  
+  .mobile-subtitle {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* Safe area insets for notched phones */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top, 20px) !important;
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 20px) !important;
+  }
+  
+  /* Mobile gesture indicators */
+  .swipe-hint {
+    display: block !important;
+    animation: swipe-hint 2s ease-in-out infinite;
+  }
+  
+  @keyframes swipe-hint {
+    0%, 100% { transform: translateX(0); opacity: 0.5; }
+    50% { transform: translateX(-10px); opacity: 1; }
+  }
+}
+
+/* ===== TABLET OPTIMIZATIONS ===== */
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* 📱 Tablet Optimizations */
+  
+  /* Tablet glass card */
+  .login-card {
+    width: 80% !important;
+    max-width: 400px !important;
+    padding: 30px !important;
+  }
+  
+  /* Tablet assistant card */
+  .assistant-card {
+    width: 300px !important;
+    height: 380px !important;
+  }
+  
+  /* Tablet voice controls */
+  .voice-controls {
+    right: 20px !important;
+    gap: 12px !important;
+  }
+  
+  /* Tablet subtitle */
+  .subtitle-container {
+    max-width: 400px !important;
+    font-size: 15px !important;
+  }
+  
+  /* Tablet grid adjustments */
+  .tablet-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+  
+  /* Tablet touch targets */
+  .tablet-touch {
+    min-height: 52px !important;
+    padding: 14px 24px !important;
+  }
+}
+
+/* ===== LAPTOP OPTIMIZATIONS ===== */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  /* 💻 Laptop Optimizations */
+  
+  /* Hover effects for non-touch devices */
+  @media (hover: hover) {
+    .hover-lift:hover {
+      transform: translateY(-2px) scale(1.02) !important;
+      box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3) !important;
+    }
+    
+    .hover-glow:hover {
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5) !important;
+    }
+  }
+  
+  /* Smooth transitions for laptop */
+  .laptop-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+}
+
+/* ===== DESKTOP OPTIMIZATIONS ===== */
+@media (min-width: 1441px) {
+  /* 🖥️ Desktop Optimizations */
+  
+  /* Larger glass cards */
+  .login-card {
+    max-width: 500px !important;
+    padding: 40px !important;
+  }
+  
+  /* Enhanced animations */
+  .desktop-enhanced {
+    animation-duration: 4s !important;
+  }
+  
+  /* Desktop grid */
+  .desktop-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 30px !important;
+  }
+}
+
+/* ===== TOUCH SYSTEM ENHANCEMENTS ===== */
+/* Touch feedback */
+@media (pointer: coarse) {
+  /* Touch device styles */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 255, 255, 0.3) !important;
+    tap-highlight-color: rgba(0, 255, 255, 0.3) !important;
+  }
+  
+  /* Touch feedback animations */
+  .touch-feedback:active {
+    transform: scale(0.95) !important;
+    transition: transform 0.1s ease !important;
+  }
+  
+  /* Larger interactive areas */
+  .touch-area {
+    padding: 16px !important;
+    margin: 8px !important;
+  }
+  
+  /* Disable hover effects on touch devices */
+  .no-touch-hover:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* ===== ORIENTATION HANDLING ===== */
+/* Landscape mobile */
+@media (max-width: 640px) and (orientation: landscape) {
+  .landscape-mobile {
+    padding: 10px !important;
+  }
+  
+  .assistant-card {
+    width: 200px !important;
+    height: 260px !important;
+  }
+  
+  .subtitle-container {
+    top: 60px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Portrait tablet */
+@media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
+  .portrait-tablet {
+    max-width: 600px !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* ===== ACCESSIBILITY & PERFORMANCE ===== */
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #000 !important;
+  }
+  
+  .text-white {
+    color: #000 !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .auto-dark {
+    background: #000 !important;
+    color: #fff !important;
+  }
+}
+
+/* ===== LOADING STATES ===== */
+.mobile-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.mobile-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(0, 255, 255, 0.3);
+  border-top: 3px solid #00ffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== ERROR STATES ===== */
+.mobile-error {
+  background: rgba(255, 0, 0, 0.1) !important;
+  border: 1px solid rgba(255, 0, 0, 0.3) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  margin: 16px !important;
+  color: #ff6b6b !important;
+  font-size: 14px !important;
+  text-align: center !important;
+}
+
+/* ===== SUCCESS STATES ===== */
+.mobile-success {
+  background: rgba(0, 255, 0, 0.1) !important;
+  border: 1px solid rgba(0, 255, 0, 0.3) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  margin: 16px !important;
+  color: #51cf66 !important;
+  font-size: 14px !important;
+  text-align: center !important;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+.mobile-scrollbar::-webkit-scrollbar {
+  width: 4px !important;
+}
+
+.mobile-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.mobile-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.5) !important;
+  border-radius: 2px !important;
+}
+
+.mobile-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 255, 0.7) !important;
+}

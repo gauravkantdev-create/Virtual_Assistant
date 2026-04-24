@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .loading {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Assistant Test</h1>
+        <p>Test the AI assistant with your questions. This will test the backend API directly.</p>
+        
+        <input type="text" id="questionInput" placeholder="Enter your question (e.g., What is JavaScript?)" value="What is JavaScript?">
+        <button onclick="testAssistant()">Ask Assistant</button>
+        <button onclick="testDirectGemini()">Test Direct Gemini API</button>
+        
+        <div id="response" class="response" style="display: none;"></div>
+    </div>
+
+    <script>
+        const serverUrl = "http://localhost:5000";
+        
+        async function testAssistant() {
+            const question = document.getElementById('questionInput').value;
+            const responseDiv = document.getElementById('response');
+            
+            if (!question.trim()) {
+                alert('Please enter a question');
+                return;
+            }
+            
+            responseDiv.style.display = 'block';
+            responseDiv.className = 'response loading';
+            responseDiv.textContent = '🧠 Thinking...';
+            
+            try {
+                // First, let's test the authenticated endpoint
+                console.log('Testing authenticated endpoint...');
+                
+                const response = await fetch(`${serverUrl}/test-gemini?prompt=${encodeURIComponent(question)}`);
+                const data = await response.json();
+                
+                console.log('Response:', data);
+                
+                if (data.success) {
+                    responseDiv.className = 'response';
+                    responseDiv.textContent = `✅ Assistant Response:\n\n${data.response}`;
+                } else {
+                    responseDiv.className = 'response error';
+                    responseDiv.textContent = `❌ Error: ${data.message}\n\nDetails: ${data.error || 'No details available'}`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                responseDiv.className = 'response error';
+                responseDiv.textContent = `❌ Network Error: ${error.message}\n\nMake sure the backend server is running on port 5000.`;
+            }
+        }
+        
+        async function testDirectGemini() {
+            const question = document.getElementById('questionInput').value;
+            const responseDiv = document.getElementById('response');
+            
+            if (!question.trim()) {
+                alert('Please enter a question');
+                return;
+            }
+            
+            responseDiv.style.display = 'block';
+            responseDiv.className = 'response loading';
+            responseDiv.textContent = '🧠 Testing direct Gemini API...';
+            
+            try {
+                // Test the root endpoint with prompt
+                const response = await fetch(`${serverUrl}/?prompt=${encodeURIComponent(question)}`);
+                const data = await response.json();
+                
+                console.log('Direct response:', data);
+                
+                if (data.response) {
+                    responseDiv.className = 'response';
+                    responseDiv.textContent = `✅ Direct Gemini Response:\n\n${data.response}`;
+                } else {
+                    responseDiv.className = 'response error';
+                    responseDiv.textContent = `❌ Error: ${data.message || 'Unknown error'}`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                responseDiv.className = 'response error';
+                responseDiv.textContent = `❌ Network Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

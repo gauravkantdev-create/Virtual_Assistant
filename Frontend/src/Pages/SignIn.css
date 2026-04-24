@@ -1,0 +1,65 @@
+/* Glassmorphic card */
+.login-card {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+/* Floating 3D animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
+  25% { transform: translateY(-10px) rotateX(2deg) rotateY(2deg); }
+  50% { transform: translateY(10px) rotateX(-2deg) rotateY(-2deg); }
+  75% { transform: translateY(-5px) rotateX(1deg) rotateY(-1deg); }
+}
+
+.animate-floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* 3D hover effect */
+.login-card:hover {
+  transform: rotateY(10deg) rotateX(5deg) scale(1.02);
+}
+
+/* Floating labels */
+.floating-input {
+  position: relative;
+}
+
+.floating-input input {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  outline: none;
+  font-size: 1rem;
+  backdrop-filter: blur(5px);
+}
+
+.floating-input label {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  color: white;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.floating-input input:focus + label,
+.floating-input input:not(:placeholder-shown) + label {
+  top: -0.7rem;
+  left: 1rem;
+  font-size: 0.8rem;
+  color: #63b3ed; /* Tailwind blue-400 */
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0 0.2rem;
+  border-radius: 0.2rem;
+}
