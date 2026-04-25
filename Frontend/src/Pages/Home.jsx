@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { userDataContext } from "../Context/UserContext";
@@ -19,6 +19,7 @@ const Home = () => {
   const [lastTranscript, setLastTranscript] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [voiceReplyEnabled, setVoiceReplyEnabled] = useState(true);
+  const requestInFlightRef = useRef(false);
 
   const displayName = assistantName?.trim() || "Assistant";
   const userName = userData?.name?.trim() || "there";
@@ -75,7 +76,12 @@ const Home = () => {
       return;
     }
 
+    if (requestInFlightRef.current) {
+      return;
+    }
+
     try {
+      requestInFlightRef.current = true;
       setIsThinking(true);
       setResponse("");
 
@@ -103,6 +109,7 @@ const Home = () => {
         speak(message);
       }
     } finally {
+      requestInFlightRef.current = false;
       setIsThinking(false);
     }
   };
@@ -336,6 +343,7 @@ const Home = () => {
                   <button
                     key={prompt}
                     onClick={() => askAssistant(prompt)}
+                    disabled={isThinking}
                     className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 transition hover:border-cyan-300/50 hover:bg-white/10"
                   >
                     {prompt}
