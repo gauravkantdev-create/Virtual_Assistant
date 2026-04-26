@@ -12,12 +12,14 @@ import geminiResponse from "./Gemini.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ❌ override hata diya (Railway ke env ko disturb karta hai)
-dotenv.config();
+// ❌ REMOVE dotenv in production (Railway already injects env)
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 
 const app = express();
 
-// ✅ Middleware 
+// ✅ Middleware
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
@@ -35,37 +37,27 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ Log all requests
+// ✅ Logs
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);
   next();
 });
 
-// ✅ Connect to Database
+// ✅ DB connect
 connectDb();
 
 // ✅ Routes
 app.use("/api/user", userRoutes);
 app.use("/api/auth", AuthRoutes);
 
-// ✅ Test Gemini API endpoint
+// ✅ Test route
 app.get("/test-gemini", async (req, res) => {
-  const prompt = req.query.prompt || "What is JavaScript?";
-
   try {
+    const prompt = req.query.prompt || "Hello";
     const response = await geminiResponse(prompt);
-
-    res.status(200).json({
-      success: true,
-      prompt,
-      response,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to test Gemini API.",
-      error: error.message
-    });
+    res.json({ success: true, response });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
@@ -74,17 +66,15 @@ app.get("/", (req, res) => {
   res.send("🚀 Backend is running successfully...");
 });
 
-// ✅ Error handling
+// ✅ Error handler
 app.use((err, req, res, next) => {
-  console.error("❌ Server Error:", err.message);
-  res.status(500).json({
-    message: "Internal server error",
-  });
+  console.error(err.message);
+  res.status(500).json({ message: "Internal server error" });
 });
 
-// ✅ IMPORTANT: Railway compatible PORT
-const PORT = process.env.PORT || 10000;
+// ✅ CRITICAL FIX (Railway compatible)
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`✅ Server started on port ${PORT}`);
 });
