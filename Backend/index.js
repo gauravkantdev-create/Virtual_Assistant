@@ -12,7 +12,7 @@ import geminiResponse from "./Gemini.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ❌ REMOVE dotenv in production (Railway already injects env)
+// ✅ Load .env only in local
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
@@ -72,9 +72,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal server error" });
 });
 
-// ✅ CRITICAL FIX (Railway compatible)
-const PORT = process.env.PORT;
+// ✅ 🔥 FINAL PORT FIX (IMPORTANT)
+const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`✅ Server started on port ${PORT}`);
 });
