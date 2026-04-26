@@ -83,8 +83,8 @@ app.use((err, req, res, next) => {
 });
 
 // ✅ IMPORTANT: Railway compatible PORT
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 10000;
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`✅ Server started on port ${PORT}`);
 });
