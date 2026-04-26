@@ -73,9 +73,13 @@ app.use((err, req, res, next) => {
 });
 
 // ✅ 🔥 FINAL PORT FIX (MOST IMPORTANT)
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
-// 👇 THIS LINE IS CRITICAL FOR RAILWAY
+if (!PORT) {
+  console.error("❌ PORT not found!");
+  process.exit(1);
+}
+
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`✅ Server started on port ${PORT}`);
 });
