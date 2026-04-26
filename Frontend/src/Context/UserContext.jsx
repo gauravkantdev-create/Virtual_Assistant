@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 export const userDataContext = createContext();
 
 const UserContext = ({ children }) => {
-  const serverUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:5000";
+  const serverUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:10000";
 
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);

@@ -4,6 +4,7 @@ const connectDb= async()=>{
     try {
          // Disable buffering so failures throw immediately instead of hanging
          mongoose.set('bufferCommands', false);
+         console.log("Connecting to:", process.env.MONGODB_URL.substring(0, 20) + "...");
          await mongoose.connect(process.env.MONGODB_URL, {
             serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
          });

@@ -1,3 +1,4 @@
+// Force restart to pick up new ENV changes
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
@@ -12,7 +13,7 @@ import geminiResponse from "./Gemini.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, ".env") });
+dotenv.config({ path: path.resolve(__dirname, ".env"), override: true });
 
 const app = express();
 
