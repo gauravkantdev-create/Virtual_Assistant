@@ -19,28 +19,22 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = express();
 
+// ✅ Diagnostic Logs for Railway
+console.log("--- ENVIRONMENT DIAGNOSTICS ---");
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("PORT:", process.env.PORT);
+console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
+console.log("-------------------------------");
+
 // ✅ Required for Railway/Production (Trust the proxy)
 app.set("trust proxy", 1);
 
-// ✅ Middleware
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  "http://localhost:8080",
-  "https://grateful-learning-production.up.railway.app", // Allow the backend to see itself
-  process.env.FRONTEND_URL,
-].filter(Boolean);
-
+// ✅ Relaxed CORS for Debugging (Rule out CORS as the cause)
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== "production") {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
+      // Allow everything for now to test connectivity
+      callback(null, true);
     },
     credentials: true,
   })
@@ -49,9 +43,9 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ Logs
+// ✅ Enhanced Request Logger
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path} - Origin: ${req.get('origin')}`);
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - Origin: ${req.get('origin') || 'direct'}`);
   next();
 });
 
@@ -73,20 +67,23 @@ app.get("/test-gemini", async (req, res) => {
   }
 });
 
-// ✅ Root route (CRITICAL for Railway Health Checks)
+// ✅ Root route (SIMPLIFIED for debugging)
 app.get("/", (req, res) => {
-  res.status(200).send("🚀 Backend is running successfully on Railway!");
+  console.log("Hit Root / route");
+  res.status(200).send("🚀 JARVIS Backend is ONLINE");
 });
 
 // ✅ Error handler
 app.use((err, req, res, next) => {
-  console.error("Server Error:", err.message);
-  res.status(500).json({ message: "Internal server error" });
+  console.error("Critical Server Error:", err.stack);
+  res.status(500).json({ message: "Internal server error", error: err.message });
 });
 
 // ✅ 🔥 FINAL PORT FIX
 const PORT = process.env.PORT || 10000;
 
+// Listen on all interfaces (0.0.0.0) which is mandatory for Railway
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`✅ Server started on port ${PORT}`);
+  console.log(`✅ Server successfully started on port ${PORT}`);
+  console.log(`✅ Access it at: https://grateful-learning-production.up.railway.app`);
 });
