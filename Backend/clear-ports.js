@@ -31,6 +31,6 @@ const killPort = (port) => {
 };
 
 // Kill common development ports
-[5000, 3000, 8080, 5173, 5174].forEach(killPort);
+[5000, 3000, 8080, 5173, 5174, 10000].forEach(killPort);
 
 console.log('🚀 Backend ports cleared! You can now start your server.');
